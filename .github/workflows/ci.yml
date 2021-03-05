@@ -1,0 +1,12 @@
+name: Automation
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  ci:
+    name: GitHub Actions
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run KtLint
+        run: bash ./gradlew clean ktlintCheck --refresh-dependencies
+      - name: Run Test Suite
+        run: bash ./gradlew clean build test --refresh-dependencies
