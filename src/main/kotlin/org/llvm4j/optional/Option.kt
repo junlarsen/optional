@@ -104,7 +104,7 @@ public sealed class Option<out T>(protected open val value: T? = null) {
 /**
  * A data class representing the presence of a value in an [Option]
  */
-public data class Some<out T>(public override val value: T?) : Option<T>(value) {
+public data class Some<out T>(public override val value: T) : Option<T>(value) {
     public override fun toString(): String = "Some($value)"
 }
 
