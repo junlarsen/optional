@@ -91,6 +91,7 @@ public sealed class Option<out T>(protected open val value: T? = null) {
         /**
          * Create a new optional value of a nullable value
          */
+        @JvmStatic
         public fun <T> of(value: T?): Option<T> {
             return if (value != null) {
                 Some(value)
