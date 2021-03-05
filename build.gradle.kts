@@ -12,7 +12,7 @@ plugins {
 }
 
 group = "org.llvm4j"
-version = "0.1.0-SNAPSHOT"
+version = "0.1.0"
 
 kotlin.explicitApi()
 
@@ -20,6 +20,7 @@ val isSnapshot = version.toString().endsWith("SNAPSHOT")
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 dependencies {
@@ -86,9 +87,9 @@ publishing {
             repositories {
                 maven {
                     url = if (isSnapshot) {
-                        uri("https://oss.sonatype.org/content/repositories/snapshots/")
+                        uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
                     } else {
-                        uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+                        uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
                     }
 
                     credentials {
@@ -99,7 +100,7 @@ publishing {
             }
 
             pom {
-                name.set("llvm4j")
+                name.set("optional")
                 description.set("Optional<T> and Result<T, E> types for Kotlin")
                 url.set("https://github.com/llvm4j/optional")
 
