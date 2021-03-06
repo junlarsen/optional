@@ -1,15 +1,15 @@
 name: Automation
-on: [push, pull_request, workflow_dispatch]
+on:
+  push:
+    branches:
+      - master
 jobs:
   ci:
     name: GitHub Actions
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Run KtLint
-        run: bash ./gradlew clean ktlintCheck --refresh-dependencies
-      - name: Run Test Suite
-        run: bash ./gradlew clean build dokkaHtml test --refresh-dependencies
+      - run: bash ./gradlew clean build dokkaHtml --refresh-dependencies
       - name: Upload Generated Documentation
         uses: llvm4j/infrastructure/deploy-to-s3@0.1.0-rc1
         with:
@@ -17,6 +17,6 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
           aws-bucket: ${{ secrets.AWS_BUCKET }}
-          prefix: ${{ github.sha }}
+          prefix: latest
           directory: build/javadoc
           delete-existing-objects: true
