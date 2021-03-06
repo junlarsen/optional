@@ -1,5 +1,11 @@
 # Optional
 
+![](https://img.shields.io/maven-central/v/org.llvm4j/optional)
+![](https://img.shields.io/nexus/s/org.llvm4j/optional?server=https%3A%2F%2Fs01.oss.sonatype.org)
+[![](https://img.shields.io/badge/license-Apache%202.0%20with%20LLVM%20Exception-blue)](LICENSE)
+[![](https://img.shields.io/gitter/room/llvm4j/community)](https://gitter.im/llvm4j/community)
+
+
 Implementation of `Option<T>` and `Result<T, E>` for Kotlin.
 
 This package provides a basic and quick implementation of the Result and 
