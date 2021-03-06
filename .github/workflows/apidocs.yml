@@ -1,0 +1,22 @@
+name: Automation
+on:
+  push:
+    branches:
+      - master
+jobs:
+  ci:
+    name: GitHub Actions
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        run: bash ./gradlew clean build dokkaHtml --refresh-dependencies
+      - name: Upload Generated Documentation
+        uses: llvm4j/infrastructure/deploy-to-s3@deploy-to-s3
+        with:
+          aws-access-key: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+          aws-bucket: ${{ secrets.AWS_BUCKET }}
+          prefix: latest
+          directory: build/javadoc
+          delete-existing-objects: true
