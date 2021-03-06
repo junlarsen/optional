@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: bash ./gradlew clean build dokkaHtml --refresh-dependencies
-      - name: Upload Generated Documentation
+      - name: Upload Latest version
         uses: llvm4j/infrastructure/deploy-to-s3@0.1.0-rc1
         with:
           aws-access-key: ${{ secrets.AWS_ACCESS_KEY }}
@@ -18,5 +18,15 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
           aws-bucket: ${{ secrets.AWS_BUCKET }}
           prefix: latest
+          directory: build/javadoc
+          delete-existing-objects: true
+      - name: Upload Commit Tagged version
+        uses: llvm4j/infrastructure/deploy-to-s3@0.1.0-rc1
+        with:
+          aws-access-key: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+          aws-bucket: ${{ secrets.AWS_BUCKET }}
+          prefix: ${{ github.sha }}
           directory: build/javadoc
           delete-existing-objects: true
