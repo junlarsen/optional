@@ -21,6 +21,18 @@ dependencies {
 }
 ```
 
+Snapshot builds are available in Sonatype's snapshot repositories:
+
+```groovy
+repositories {
+    maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+}
+
+dependencies {
+    implementation("org.llvm4j:optional:0.1.1-SNAPSHOT")
+}
+```
+
 > Note: this package is mostly used internally within llvm4j's projects and 
 > shared across multiple projects.
 
