@@ -12,11 +12,12 @@ plugins {
 }
 
 group = "org.llvm4j"
-version = "0.1.0"
+version = "0.1.1-SNAPSHOT"
 
 kotlin.explicitApi()
 
-val isSnapshot = version.toString().endsWith("SNAPSHOT")
+val isStaging = true
+val isCI = System.getenv("CI") == "true"
 
 repositories {
     mavenCentral()
@@ -86,15 +87,15 @@ publishing {
 
             repositories {
                 maven {
-                    url = if (isSnapshot) {
+                    url = if (isStaging) {
                         uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
                     } else {
                         uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
                     }
 
                     credentials {
-                        username = System.getenv("PUBLISH_USERNAME")
-                        password = System.getenv("PUBLISH_PASSWORD")
+                        username = System.getenv("DEPLOY_USERNAME")
+                        password = System.getenv("DEPLOY_PASSWORD")
                     }
                 }
             }
@@ -128,8 +129,17 @@ publishing {
         }
 
         signing {
-            useGpgCmd()
-            sign(publishing.publications["sonatype"])
+            signing {
+                if (isCI) {
+                    val signingKey: String? by project
+                    val signingPassword: String? by project
+
+                    useInMemoryPgpKeys(signingKey, signingPassword)
+                } else {
+                    useGpgCmd()
+                }
+                sign(publishing.publications["sonatype"])
+            }
         }
     }
 }
